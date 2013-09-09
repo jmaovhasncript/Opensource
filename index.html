@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        #second{
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #a1a1a1;
+        }
+    </style>
+</head>
+<body>
+<div id="first"></div>
+<script>
+    var callthis = function(element){
+           element.setAttribute("tabIndex",0);
+        element.focus();
+        element.onkeydown = handler;
+        function handler(){
+                alert("called")
+        }
+    }
+
+
+    var observer = new WebKitMutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            for (var i = 0; i < mutation.addedNodes.length; i++)
+            if(mutation.addedNodes[i].id === "second"){
+                callthis(mutation.addedNodes[i]);
+            }
+
+        })
+    });
+    observer.observe(document.getElementById("first"), { childList: true });
+
+
+    var ele = document.createElement('div');
+    ele.id = "second"
+
+    document.getElementById("first").appendChild(ele);
+
+</script>
+
+</body>
+</html>
